@@ -1,0 +1,67 @@
+<!DOCTYPE html><html class="appearance-auto" lang="zh-CN"><head><meta charset="UTF-8"><title>ProvG-Searcher阅读笔记</title><meta name="description" content="A Web dog in CTF, interested in geek hacking."><meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, initial-scale=1"><!-- Google Analytics --><!-- End Google Analytics -->
+<!-- Baidu Analytics --><script>var _hmt = _hmt || [];
+(function() {
+var hm = document.createElement("script");
+hm.src = "//hm.baidu.com/hm.js?" + 'fab0818d7bbe5eea68243a5a351186fe';
+var s = document.getElementsByTagName("script")[0];
+s.parentNode.insertBefore(hm, s);
+})();</script><!-- End Baidu Analytics --><link rel="icon" href="/images/favicon.ico"><link rel="stylesheet" href="/style/common/bulma.css"><link rel="stylesheet" href="/style/base.css"><link rel="stylesheet" href="/style/common/helper.css"><script src="/js/common.js"></script><link rel="stylesheet" href="/style/post.css"><link rel="stylesheet" href="/style/themes/highlight-theme-light.css"><link rel="stylesheet" href="/style/common/jquery.fancybox.min.css"><script src="/js/highlight.pack.js"></script><meta name="description" content="
+论文名称：[CCS 23'] ProvG-Searcher: A Graph
+Representation Learning Approach for Efficient Provenance Graph
+Search
+论文链接：https://arxiv.org/pdf/2309.03647v1
+代码链接：https://github.com/EnesAltinisik/ProvG-Searcher
+
+阅读笔记
+主要解决的问题
+在大量历史系统日志存储库中高效搜索已知攻击行为来进行威胁狩猎
+网络攻击日益复杂和数量庞大，仅依赖组织内部可用的检测工具已不再可行。因此，威胁猎人必须不断扫描威胁情报提供的新的威胁行为描述，并假设相同的攻击者可能会绕过他们组织的安全控制。
+场景引入
+威胁猎人发现针对一个与他们所在行.."><meta name="generator" content="Hexo 7.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="fl3cha2o's blog" type="application/atom+xml">
+</head><body class="is-flex is-flex-direction-column"><header class="header-widget is-flex-shrink-0 is-hidden-mobile"><div class="container is-fullhd is-flex is-justify-content-space-between is-align-items-center is-full-height"><section class="is-hidden-mobile is-flex-shrink-0"><h2><a href="/">fl3cha2o's blog</a></h2></section><h3 class="is-hidden-mobile is-family-serif is-full-height is-flex is-align-items-center is-flex-shrink-0"><div class="is-full-height" id="postTopic"><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">ProvG-Searcher阅读笔记</p><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">点击返回顶部</p></div></h3><aside class="is-flex-shrink-0"><h3 class="is-inline-block"><a href="/">首页</a></h3><h3 class="is-inline-block"><a href="/about">关于</a></h3><h3 class="is-inline-block"><a href="/archives">归档</a></h3></aside></div></header><header class="is-flex header-widget is-flex-shrink-0 is-align-items-center is-justify-content-center is-hidden-tablet"><h3 class="is-inline-block"><a href="/">首页</a></h3><h3 class="is-inline-block"><a href="/about">关于</a></h3><h3 class="is-inline-block"><a href="/archives">归档</a></h3></header><main><main class="container is-max-widescreen content section post-page pt-4 px-4"><div class="columns is-flex-desktop is-justify-content-center is-flex-direction-row-reverse"><div class="column is-3 is-hidden-mobile"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0"><span class="toc-text">阅读笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E8%A6%81%E8%A7%A3%E5%86%B3%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-text">主要解决的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%BA%E6%99%AF%E5%BC%95%E5%85%A5"><span class="toc-text">场景引入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E5%AD%90%E5%9B%BE%E5%8C%B9%E9%85%8D%E5%8C%B9%E9%85%8D%E6%96%B9%E6%B3%95%E7%9A%84%E6%BA%AF%E6%BA%90%E5%9B%BE%E6%A3%80%E6%B5%8B"><span class="toc-text">基于子图匹配匹配方法的溯源图检测</span></a></li></ol></li></ol></div><div class="column is-9"><header class="my-4"><a href="/tags/paperNotes"><i class="tag post-item-tag">paperNotes</i></a></header><h1 class="mt-0 mb-1 is-family-serif" id="postTitle">ProvG-Searcher阅读笔记</h1><time class="has-text-grey" datetime="2024-06-08T05:45:36.000Z">2024-06-08</time><article class="mt-2 post-content"><blockquote>
+<p><strong>论文名称：</strong>[CCS 23'] ProvG-Searcher: A Graph
+Representation Learning Approach for Efficient Provenance Graph
+Search</p>
+<p><strong>论文链接：</strong>https://arxiv.org/pdf/2309.03647v1</p>
+<p><strong>代码链接：</strong>https://github.com/EnesAltinisik/ProvG-Searcher</p>
+</blockquote>
+<h2 id="阅读笔记">阅读笔记</h2>
+<h3 id="主要解决的问题">主要解决的问题</h3>
+<p><strong>在大量历史系统日志存储库中高效搜索已知攻击行为来进行威胁狩猎</strong></p>
+<p>网络攻击日益复杂和数量庞大，仅依赖组织内部可用的检测工具已不再可行。因此，威胁猎人必须不断扫描威胁情报提供的新的威胁行为描述，并假设相同的攻击者可能会绕过他们组织的安全控制。</p>
+<h3 id="场景引入">场景引入</h3>
+<p>威胁猎人发现针对一个与他们所在行业相同的组织的消息最新攻击情报。在这种情况下，安全人员会假设攻击者可能已经渗透了他们的系统，并在系统日志中搜索潜在的入侵痕迹。在溯源分析的背景下，这需要将外部情报的威胁行为转换为可以在系统级溯源图中搜索的查询。</p>
+<p><strong>这个问题可以被看作是图包含（子图匹配）问题的一个实例。</strong></p>
+<p>示例场景：<img src="/.top//image-20240608141405144.png" alt="image-20240608141405144"></p>
+<p>现在获取到了一个描述了一个对nginx
+Web服务器进行攻击的威胁情报报告：通过下载恶意载荷并执行以获取root权限。威胁猎手利用这些信息创建一个查询图<span class="math inline">\(\mathcal{G}_{Q}\)</span>，其中每种系统实体都用不同的形状和颜色表示。</p>
+<p><strong>目标：</strong>在系统级溯源图<span class="math inline">\(\mathcal{G}\)</span>搜索，识别与查询图在颜色和连接模式方面匹配的节点。<span class="math inline">\(\mathcal{G}_{Q}\)</span>可以被确认是<span class="math inline">\(\mathcal{G}\)</span>的一个子图，使威胁猎手能推断所描述的威胁行为存在于该系统中。</p>
+<p>这篇论文就是这个问题的一个解决方案，并开发了一个名为ProvG-Searcher的系统，在庞大的溯源图中高效准确地识别匹配给定的查询图。</p>
+<h3 id="基于子图匹配匹配方法的溯源图检测">基于子图匹配匹配方法的溯源图检测</h3>
+<p>子图匹配问题涉及确定查询图在结构上和关键特征上是否同构于较大图的子图，这是图分析中的一个基本问题。然而，精确子图匹配被认为是NP完全的。因此，基于组合方法的精确方法无法解决大规模实例。</p>
+<p>为了在合理的时间范围内执行子图匹配，已经提出了几种近似解决方案。</p>
+<ul>
+<li><p>较早的不精确子图匹配方法通常依赖<strong>启发式方法</strong>来判断节点更好的对齐，或将<strong>离散优化问题转化为连续问题</strong>。</p></li>
+<li><p>近年来，图神经网络在图表示学习方面取得了显著成功，几种基于学习的近似子图匹配方法的开发，性能优越。</p>
+<p>这些方法的核心是学习一个嵌入函数，将每个图映射到封装其关键特征的嵌入向量中。然后，在这个连续的向量空间中评估两个图嵌入之间的子图关系。</p></li>
+</ul>
+<p><strong>基于子图匹配方法检测的难点：</strong></p>
+<ol type="1">
+<li><p>溯源图节点和边的数量多，平均节点度高，搜索和学习图计算成本过高</p></li>
+<li><p>日志粒度粗阻碍系统实体之间准确追踪信息和控制流，导致节点之间出现错误连接
+-&gt; 基于图之间节点对齐的搜索方法很大程度上不可行</p></li>
+<li><p>将基于GNNs的基于学习的方法应用到大型图中会引入进一步的复杂性。GNNs通过一系列消息传递迭代进行计算，在此过程中，节点从相邻节点收集数据以更新自己的信息。然后所有节点的更新信息被汇总在一起以创建一个图级表示。在这种情况下，增加模型深度超过几层（即迭代次数）以更有效地捕捉关系会导致GNN的接受域呈指数级的扩展，从而导致由于过度平滑而导致表达能力减弱
+。</p>
+<p>为了提高溯源图分析的效率，目前的研究提出了一些简化溯源图的方法：</p>
+<ul>
+<li>实体剪枝：</li>
+<li>去除冗余语义：</li>
+<li>行为抽象：</li>
+<li>缓解依赖爆炸</li>
+</ul>
+<p>这些数据减少方法主要集中在识别异常交互并保留取证的可追踪性上。然而，它们通常无法达到保持足够完整性以支持对更一般图模式的搜索的目标。</p>
+<p>[---未完待续---]</p></li>
+</ol>
+</article><section class="jump-container is-flex is-justify-content-space-between my-6"><!-- em is empty placeholder--><em></em><a class="button is-default" href="/posts/21729/" title="溯源图科研总结"><span class="has-text-weight-semibold">下一页: 溯源图科研总结</span><i class="iconfont icon-next ml-2 has-text-grey"></i></a></section></div></div></main></main><footer class="is-flex is-flex-direction-column is-align-items-center is-flex-shrink-0 is-family-serif"></footer><script src="/js/jquery-3.6.1.min.js"></script><script src="/js/jquery-fancybox.min.js"></script><script src="/js/img_zoom.js"></script><script src="/js/post.js"></script></body></html>

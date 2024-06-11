@@ -6,7 +6,7 @@
   <link href="https://blog.fl3cha2o.top/atom.xml" rel="self"/>
   
   <link href="https://blog.fl3cha2o.top/"/>
-  <updated>2024-06-11T08:35:10.293Z</updated>
+  <updated>2024-06-11T13:58:43.971Z</updated>
   <id>https://blog.fl3cha2o.top/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>docker镜像失效</title>
+    <link href="https://blog.fl3cha2o.top/posts/30054/"/>
+    <id>https://blog.fl3cha2o.top/posts/30054/</id>
+    <published>2024-06-11T13:54:04.000Z</published>
+    <updated>2024-06-11T13:58:43.971Z</updated>
+    
+    <content type="html"><![CDATA[<p>发现镜像失效了，docker pull一直下载不下来，记录一下解决方案</p><p>参考https://docs.docker.com/config/daemon/systemd/#httphttps-proxy</p><ol type="1"><li><p>新建文件夹</p><p></p><pre><code class="highlight bash">sudo <span class="built_in">mkdir</span> -p /etc/systemd/system/docker.service.d</code></pre><p></p></li><li><p>创建文件<code>/etc/systemd/system/docker.service.d/http-proxy.conf</code></p><p>将文中的http://proxy.example.com:3128 替换为自己的代理，如clash-&gt;http://ip:7890</p><p></p><pre><code class="highlight bash">[Service]Environment=<span class="string">"HTTP_PROXY=http://ip:7890"</span>Environment=<span class="string">"HTTPS_PROXY=http://ip:7890"</span></code></pre><p></p></li><li><p>刷新重启docker</p><p></p><pre><code class="highlight bash">sudo systemctl daemon-reloadsudo systemctl restart docker</code></pre><p></p></li><li><p>测试是否成功</p><p></p><pre><code class="highlight bash">sudo systemctl show --property=Environment docker</code></pre><p></p><p><img src="/posts/30054/image-20240611215833744.png"></p></li></ol>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;发现镜像失效了，docker pull一直下载不下来，记录一下解决方案&lt;/p&gt;
+&lt;p&gt;参考https://docs.docker.com/config/daemon/systemd/#httphttps-proxy&lt;/p&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;&lt;p&gt;新建文件</summary>
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>ProvG-Searcher阅读笔记</title>
